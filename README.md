@@ -76,7 +76,7 @@ As a business grows, so does the amount of data its pipelines need to process. E
 
 **Understanding What to Upgrade**:
  - **CPU**: if the program runs on a faster CPU, it's more efficient.
- - **Memory (RAM)**: some DBs hold most of their data in memory to help with faster data retrieval. More memory = more better performance.
+ - **Memory (RAM)**: some DBs hold most of their data in memory to help with faster data retrieval. More memory = better performance.
   - **I/O**: Critical for frequent reads/writes to disk, calling APIs, or read/writes to remote databases
 
 **Limitations of Vertical Scaling**:
