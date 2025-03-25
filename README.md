@@ -109,7 +109,7 @@ A high-availability data infrastructure is one that stays **resilient and operat
 
 We can see several examples of high-availability being implemented in this project:
 
-1. **Parallel consumer scaling via Kafka partitioning** to prevent single-consumer bottlenecks and allows failover within the consumer group
+1. **Parallel consumer scaling enabled by Kafka partitioning** to prevent single-consumer bottlenecks and allows failover within the consumer group
 **Replicating EC2 consumer servers** to ensure continued service if one instance goes down  
 2. **Auto Scaling Groups** that automatically launch new instances when traffic spikes or failures occur  
 3. **Pre-built AMIs** that allow rapid redeployment of identical environments, reducing downtime  
