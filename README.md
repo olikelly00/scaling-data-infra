@@ -65,10 +65,10 @@ Thanks to using Prometheus and Grafana to get visibility of our data pipeline's 
 - As an example, we created an Auto scaling group on EC2, configuring minimum, maximum and desired capacity. We then adapted this to include a dynamic scaling policy.
 
 ![evidence of ASG setup](asg_overview.png)
-*evidence of our Auto-Scaling Group setup*
+*Evidence of our Auto-Scaling Group setup*
 
 ![evidence of dynamic scaling policy creation for ASG](asg_dynamic_scaling_policy.png)
-*evidence of our dynamic scaling policy set up for ASG*
+*Evidence of our dynamic scaling policy set up for ASG*
 
 
 **Dockerising Consumer Applications**
