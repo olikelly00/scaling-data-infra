@@ -28,6 +28,7 @@ As a business grows, so does the amount of data its pipelines need to process. E
 Thanks to using Prometheus and Grafana to get visibility of our data pipeline's performance, we can see that before solving these bottlenecks, our pipeline huge lag between messages received from producer applications and messages processed by consumer applications:
 
 ![screenshot of Grafana dashboard showing high levels of lag before scaling efforts](before_scaling_lots_of_lag.png)
+*Before scaling: Grafana representation of high levels of lag in our data pipeline*
 
 
 ---
@@ -41,6 +42,7 @@ Thanks to using Prometheus and Grafana to get visibility of our data pipeline's 
 - Spinning up multiple instances of your program to handle data in parallel. This increases throughput and reduces latency. 
 
 ![diagram showing increased partition count and impact of this on MSK cluster's ability to process application copies in parallel](partition_diagram.png)
+*Diagram to explain increasing the partition count of our MSK cluster and its impact on performance*
 
 - To enable parallel processing in Kafka, we needed to **increase the partition count**. This is because processes (or consumers) in a consumer group can only read from one partition at a time. If your topic has only one partition, only one consumer can actively process data — even if you have multiple instances running. 
 - By increasing the number of partitions, we allow multiple copies of the consumer application to work in parallel, each assigned to a separate partition. This unlocks true parallelism and helps the system keep up with high-throughput data streams. Here's a diagram to represent this change:
@@ -48,6 +50,7 @@ Thanks to using Prometheus and Grafana to get visibility of our data pipeline's 
 - In our project, we implemented parallel processing on all three consumer applications, so that each can run 30 copies of their respective program simultanesouly. Here is a screenshot of KafkaUI (a visualisation tool for Kafka streaming processes), to demonstrate the number of proceeses running in parallel on each server.
 
 ![screenshot of Kafka UI showing parallel processing for three EC2s](parallel_processing.png)
+*Evidence of parallel processing across three EC2s*
 
 **Server Replication**
 
@@ -62,8 +65,11 @@ Thanks to using Prometheus and Grafana to get visibility of our data pipeline's 
 - As an example, we created an Auto scaling group on EC2, configuring minimum, maximum and desired capacity. We then adapted this to include a dynamic scaling policy.
 
 ![evidence of ASG setup](asg_overview.png)
+*evidence of our Auto-Scaling Group setup*
 
 ![evidence of dynamic scaling policy creation for ASG](asg_dynamic_scaling_policy.png)
+*evidence of our dynamic scaling policy set up for ASG*
+
 
 **Dockerising Consumer Applications**
 
@@ -78,6 +84,7 @@ Thanks to using Prometheus and Grafana to get visibility of our data pipeline's 
 - Replacing smaller EC2 instances (e.g. `t3.micro`) with more powerful ones (e.g. `t3.medium`).
 
 ![screenshot showing our work to upgrade from micro EC2 instances to medium](vertical_scale_micro_to_med.png)
+*Evidence of upgrading our EC2 instances from micro to medium*
 
   This involves:
   1. Creating an AMI image of the original instance
@@ -85,6 +92,7 @@ Thanks to using Prometheus and Grafana to get visibility of our data pipeline's 
   3. Reconfiguring IAM permissions and security groups
 
 ![evidence of AMI image we created to quickly spin up new EC2 instances](AMI_creation.png)
+*Evidence of the AMI image we created in order to quickly replicate servers quickly*
 
 **Understanding What to Upgrade**:
  - **CPU**: if the program runs on a faster CPU, it's more efficient.
@@ -104,6 +112,8 @@ Thanks to using Prometheus and Grafana to get visibility of our data pipeline's 
 Thanks to using Prometheus and Grafana to get visibility of our data pipeline's performance, we can see that by applying horizontal and vertical scaling techniques to our project, we reduceds the lag to minimal levels.
 
 ![a screenshot of Grafana dashboard showing little lag between producer output and consumer uptake](after_scaling_no_lag.png)
+*After scaling: Grafana representation of low levels of lag in our data pipeline*
+
 
 
 ---
@@ -117,8 +127,6 @@ A scalable data infrastructure is one that can **grow horizontally and verticall
 - Monitoring tools to track throughput, lag, and resource usage (eg. Prometheus, Grafana)  
 
 This design ensures your data pipeline stays performant even as data volume and complexity grow, and allows you to track performance of your pipeline as it scales.
-
-
 
 
 ---
