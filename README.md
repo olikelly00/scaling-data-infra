@@ -24,6 +24,12 @@ As a business grows, so does the amount of data its pipelines need to process. E
 - Too many consumers attached to a single stream  
 - Consumers lag behind producers and can't process data fast enough (latency issues)
 
+
+Thanks to using Prometheus and Grafana to get visibility of our data pipeline's performance, we can see that before solving these bottlenecks, our pipeline huge lag between messages received from producer applications and messages processed by consumer applications:
+
+![screenshot of Grafana dashboard showing high levels of lag before scaling efforts](before_scaling_lots_of_lag.png)
+
+
 ---
 ## What are some common corrective actions to solve scalability issues? 
 
@@ -34,12 +40,11 @@ As a business grows, so does the amount of data its pipelines need to process. E
 
 - Spinning up multiple instances of your program to handle data in parallel. This increases throughput and reduces latency. 
 
-  > 📷 *Insert screenshot to show parallel processing*
+![diagram showing increased partition count and impact of this on MSK cluster's ability to process application copies in parallel](partition_diagram.png)
 
 - To enable parallel processing in Kafka, we needed to **increase the partition count**. This is because processes (or consumers) in a consumer group can only read from one partition at a time. If your topic has only one partition, only one consumer can actively process data — even if you have multiple instances running. 
-- By increasing the number of partitions, we allow multiple copies of the consumer application to work in parallel, each assigned to a separate partition. This unlocks true parallelism and helps the system keep up with high-throughput data streams.
+- By increasing the number of partitions, we allow multiple copies of the consumer application to work in parallel, each assigned to a separate partition. This unlocks true parallelism and helps the system keep up with high-throughput data streams. Here's a diagram to represent this change:
 
-  > 📷 *Insert screenshot of updated partition diagram*
 
 **Server Replication**
 
@@ -67,7 +72,7 @@ As a business grows, so does the amount of data its pipelines need to process. E
 **Upgrading Servers**
 - Replacing smaller EC2 instances (e.g. `t3.micro`) with more powerful ones (e.g. `t3.medium`).
 
-  > 📷 *Insert screenshot of EC2 instance upgrade*
+![screenshot showing our work to upgrade from micro EC2 instances to medium](vertical_scale_micro_to_med.png)
 
   This involves:
   1. Creating an AMI image of the original instance
@@ -85,6 +90,15 @@ As a business grows, so does the amount of data its pipelines need to process. E
 - Downtime may be needed to retire and replace servers  
 - Risk of duplicate records if both old and new pipelines run simultaneously
 
+
+
+## Impact of Vertical & Horizontal Scaling techniques
+
+Thanks to using Prometheus and Grafana to get visibility of our data pipeline's performance, we can see that by applying horizontal and vertical scaling techniques to our project, we reduceds the lag to minimal levels.
+
+![a screenshot of Grafana dashboard showing little lag between producer output and consumer uptake](after_scaling_no_lag.png)
+
+
 ---
 ## So what does a **scalable** data infrastructure look like?
 
@@ -96,6 +110,9 @@ A scalable data infrastructure is one that can **grow horizontally and verticall
 - Monitoring tools to track throughput, lag, and resource usage (eg. Prometheus, Grafana)  
 
 This design ensures your data pipeline stays performant even as data volume and complexity grow, and allows you to track performance of your pipeline as it scales.
+
+
+
 
 ---
 ## What does a **high-availability** data infrastructure look like?
