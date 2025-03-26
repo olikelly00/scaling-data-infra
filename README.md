@@ -56,8 +56,6 @@ Thanks to using Prometheus and Grafana to get visibility of our data pipeline's 
 
 - Running multiple identical copies of your servers to balance the workload evenly. As an example, we replicated our AWS EC2 instance running an analytics consumer application:
 
-  > *Insert screenshot of EC2 instance replication*
-
 **Auto-Scaling Groups (ASGs)**
 
 - Configuring autoscaling to increase capacity during peak usage and reduce it during quiet periods. 
