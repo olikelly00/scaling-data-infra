@@ -44,7 +44,10 @@ Thanks to using Prometheus and Grafana to get visibility of our data pipeline's 
 
 - To enable parallel processing in Kafka, we needed to **increase the partition count**. This is because processes (or consumers) in a consumer group can only read from one partition at a time. If your topic has only one partition, only one consumer can actively process data — even if you have multiple instances running. 
 - By increasing the number of partitions, we allow multiple copies of the consumer application to work in parallel, each assigned to a separate partition. This unlocks true parallelism and helps the system keep up with high-throughput data streams. Here's a diagram to represent this change:
+- This also involved
+- In our project, we implemented parallel processing on all three consumer applications, so that each can run 30 copies of their respective program simultanesouly. Here is a screenshot of KafkaUI (a visualisation tool for Kafka streaming processes), to demonstrate the number of proceeses running in parallel on each server.
 
+![screenshot of Kafka UI showing parallel processing for three EC2s](parallel_processing.png)
 
 **Server Replication**
 
@@ -58,7 +61,9 @@ Thanks to using Prometheus and Grafana to get visibility of our data pipeline's 
 - This improves cost-efficiency and performance on demand. Since autoscaled machines are ephemeral (can start or stop anytime), it's important to use pre-built AMIs for faster, consistent setup without manual configuration.
 - As an example, we created an Auto scaling group on EC2, configuring minimum, maximum and desired capacity. We then adapted this to include a dynamic scaling policy.
 
-> *Insert screenshot of ASG work*
+![evidence of ASG setup](asg_overview.png)
+
+![evidence of dynamic scaling policy creation for ASG](asg_dynamic_scaling_policy.png)
 
 **Dockerising Consumer Applications**
 
@@ -78,6 +83,8 @@ Thanks to using Prometheus and Grafana to get visibility of our data pipeline's 
   1. Creating an AMI image of the original instance
   2. Spinning up a new EC2 instance using that AMI
   3. Reconfiguring IAM permissions and security groups
+
+![evidence of AMI image we created to quickly spin up new EC2 instances](AMI_creation.png)
 
 **Understanding What to Upgrade**:
  - **CPU**: if the program runs on a faster CPU, it's more efficient.
