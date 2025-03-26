@@ -70,10 +70,25 @@ Thanks to using Prometheus and Grafana to get visibility of our data pipeline's 
 ![evidence of dynamic scaling policy creation for ASG](asg_dynamic_scaling_policy.png)
 *Evidence of our dynamic scaling policy set up for ASG*
 
+![Evidence of tags added to EC2 to attach it to scaling policy](image.png)
+*Evidence of our tags added to EC2 to attach it to scaling policy*
+
+![Evidence of how we are using our ASG when spinning up new servers](evidence_of_using_asg.png)
+*Evidence of thow we are using our ASG when spinning up new servers*
 
 **Dockerising Consumer Applications**
 
-- Containers allow lightweight, portable application packaging. Dockerised apps can be deployed quickly and consistently across multiple servers.
+- Containers allow lightweight, portable applicationEvidence of consumer running within docker container on EC2 packaging. Dockerised apps can be deployed quickly and consistently across multiple servers.
+
+![Evidence of dockerfile](docker_file.png)
+*Dockerfile we used to build image of analytics consumer*
+
+![Evidence of consumer application running within docker container](evidence_consumer_running_within_container.png)
+*Evidence of consumer application running within docker container*
+
+![Evidence of consumer running within docker container on EC2](evidence_docker_container_running_ec2.png)
+*Evidence of consumer running within docker container on EC2*
+
 
 ---
 
